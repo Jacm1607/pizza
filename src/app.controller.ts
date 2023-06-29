@@ -1,26 +1,24 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
 import { AppService } from './app.service';
-import { Pizza } from './pizzaBuilder';
 
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
-  @Get('/default')
+  @Get('/pizzas')
   pizzaDefault () {
     return this.appService.getPizzaDefault();
   }
 
-  @Post('/default')
+  @Post('/pizza')
   makeDefault (@Body() request) {
-    return this.appService.makePizza(request.id);
+    return this.appService.makePizza(request.name, request.base, request.sauce, request.cheese, request.toppings, Number(request.price));
   }
 
-  @Post('/custom')
-  pizzaCustom (@Body() request): Pizza {
+  @Post('/order')
+  pizzaCustom (@Body() request) {
     const today = new Date();
-    const weekday = today.getUTCDay()
-    console.log(today)
-    return this.appService.makePizzaCustom(request.base, request.sauce, request.cheese, request.toppings);
+    console.log(request)
+    return request
   }
 }

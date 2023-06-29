@@ -1,29 +1,47 @@
-export class Pizza {
-    public base: string = '';
-    public sauce: string;
-    public cheese: string;
-    public toppings: any;
+import { Pizza } from "./pizza";
+
+interface IBuilder {
+    setBase(base: string): void;
+    setSauce(sauce: string): void;
+    setCheese(cheese: string): void;
+    setToppings(toppings: string): void;
+}
+
+export class PizzaBuilder implements IBuilder {
+    private product: Pizza
+
+    base: string;
+    sauce: string;
+    cheese: string;
+    toppings: string;
+    
+
+    constructor(id:number, name: string, price: number) {
+        this.product = new Pizza(id, name, price);
+    }
+
     setBase(base) { // base
-        this.base = base;
+        this.product.ingredients.base = base;
         return this;
     }
 
     setSauce(sauce) { //salsa
-        this.sauce = sauce;
+        this.product.ingredients.souce = sauce;
         return this;
     }
 
     setCheese(cheese) { //queso
-        this.cheese = cheese;
+        this.product.ingredients.cheese = cheese;
         return this;
     }
 
     setToppings(toppings) {  // ingrediente de relleno
-        this.toppings = toppings;
+        this.product.ingredients.toppings = toppings;
         return this;
     }
 
-    make() {
-        console.log(this);
+    build() {
+        const result = this.product
+        return result;
     }
 }
