@@ -16,7 +16,7 @@ export class PizzaBuilder implements IBuilder {
     toppings: string;
     
 
-    constructor(id:number, name: string, price: number) {
+    constructor(id:string, name: string, price: number) {
         this.product = new Pizza(id, name, price);
     }
 

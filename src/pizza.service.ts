@@ -1,9 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { PizzaBuilder } from './pizzaBuilder';
+import { PizzaBuilder } from './class/pizza.builder';
+import { Pizza } from './class/pizza';
+import { IPizzaDefault } from './interface/IPizzaDefault';
 
 @Injectable()
-export class AppService {
-  private listPizza = [
+export class PizzaService {
+  private listPizza: IPizzaDefault[] = [
     {
       name: 'Americana',
       price: 45,
@@ -21,7 +23,7 @@ export class AppService {
       topings: 'Jamon'
     }
   ]
-  public listPizzaDefault = [];
+  public listPizzaDefault: any = [];
 
   constructor() {
     this.listPizza.map((pizza) => {
@@ -29,13 +31,14 @@ export class AppService {
     })
   }
 
-  makePizza(name, base, sauce, cheese, toppings, price) {
-    const pizzaBuilder = new PizzaBuilder(this.listPizzaDefault.length+1, name, price);
+  makePizza(name: string, base: string, sauce: string, cheese: string, toppings: string, price: number): Pizza {
+    const pizzaBuilder = new PizzaBuilder(`${this.listPizzaDefault.length + 1}`, name, price);
     this.listPizzaDefault.push(pizzaBuilder.setBase(base).setSauce(sauce).setCheese(cheese).setToppings(toppings).build());
-    return this.getPizzaDefault();
+    return this.getPizzaAll();
   }
 
-  getPizzaDefault() {
+  getPizzaAll(): Pizza {
     return this.listPizzaDefault;
   }
 }
+
