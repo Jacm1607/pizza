@@ -13,7 +13,7 @@ export class OrderService {
   date: Date = new Date();
   constructor(private pizzaService: PizzaService) { }
 
-  createOrder(arrayIdPizzas, date) {
+  createOrder(arrayIdPizzas: Array<any>, date: string) {
     try {
       this.resetValue();
       this.getTotalOrder(arrayIdPizzas);
@@ -24,9 +24,9 @@ export class OrderService {
     }
   }
 
-  getTotalOrder(arrayIdPizzas) {
-    arrayIdPizzas.map((idPizza) => {
-      let result: Pizza = this.pizzaService.listPizzaDefault.find(({ id }) => id === idPizza);
+  getTotalOrder(arrayIdPizzas: Array<any>) {
+    arrayIdPizzas.forEach((idPizza) => {
+      let result: Pizza = this.pizzaService.listPizzaDefault.find(({ id }) => id === idPizza.trim());
       this.total += result.price;
       this.pizza.push(result);
     });
