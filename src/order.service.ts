@@ -1,29 +1,36 @@
-import { Injectable } from '@nestjs/common';
-import { Context } from './class/promocionStrategy';
-import { Promo2x1 } from './class/promo2x1.strategy';
-import { FreeDelivery } from './class/freedelivery.strategy';
-import { Normal } from './class/normal.strategy';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { FreeDelivery } from './class/strategy/freedelivery.strategy';
 import { PizzaService } from './pizza.service';
+import { Context } from './class/strategy/promocionStrategy';
+import { Promo2x1 } from './class/strategy/promo2x1.strategy';
+import { Normal } from './class/strategy/normal.strategy';
+import { Pizza } from './class/pizza';
 
 @Injectable()
 export class OrderService {
-    total: number;
-    date: Date = new Date();
-    constructor(private pizzaService: PizzaService){}
+  pizza: any = [];
+  total: number;
+  date: Date = new Date();
+  constructor(private pizzaService: PizzaService) { }
 
   createOrder(arrayIdPizzas, date) {
-    this.total = 0; 
-    this.getTotalOrder(arrayIdPizzas);
-    this.setModeOrder(date);
-    return this.validateApplyPromo();
+    try {
+      this.resetValue();
+      this.getTotalOrder(arrayIdPizzas);
+      this.setModeOrder(date);
+      return this.validateApplyPromo();
+    } catch (error) {
+      return new NotFoundException('Not found product')
+    }
   }
 
   getTotalOrder(arrayIdPizzas) {
     arrayIdPizzas.map((idPizza) => {
-      let result = this.pizzaService.listPizzaDefault.find(({ id }) => id === idPizza);
+      let result: Pizza = this.pizzaService.listPizzaDefault.find(({ id }) => id === idPizza);
       this.total += result.price;
+      this.pizza.push(result);
     });
-    
+
   }
 
   setModeOrder(dateRequest: string) {
@@ -40,17 +47,22 @@ export class OrderService {
       case 2:
         context.setStrategy(new Promo2x1());
         break;
-        case 3:
+      case 3:
         context.setStrategy(new Promo2x1());
         break;
-        case 4:
+      case 4:
         context.setStrategy(new FreeDelivery());
         break;
-        default:
+      default:
         context.setStrategy(new Normal())
         break;
     }
-    return context.doSomeBusinessLogic(this.total);
+    return context.execute(this.pizza, this.total);
+  }
+
+  resetValue() {
+    this.total = 0;
+    this.pizza = [];
   }
 }
 

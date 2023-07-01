@@ -7,8 +7,8 @@ export class Context {
         this.strategy = strategy;
     }
 
-    doSomeBusinessLogic(subtotal) {
-        return this.strategy.doAlgorithm(subtotal);
+    execute(pizzas, subtotal) {
+        return this.strategy.doAlgorithm(pizzas, subtotal);
     }
 }
 

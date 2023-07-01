@@ -1,12 +1,11 @@
-import { IsString } from "class-validator";
+import { IsNotEmpty, IsString } from "class-validator";
 
 export class RequestOrderDto {
     @IsString()
+    @IsNotEmpty()
     readonly idPizzas: string;
 
     @IsString()
-    readonly name: string;
-
-    @IsString()
+    @IsNotEmpty()
     readonly date: string;
 }

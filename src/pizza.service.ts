@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { PizzaBuilder } from './class/pizza.builder';
+import { PizzaBuilder } from './class/builder/pizza.builder';
 import { Pizza } from './class/pizza';
 import { IPizzaDefault } from './interface/IPizzaDefault';
 
@@ -8,7 +8,7 @@ export class PizzaService {
   private listPizza: IPizzaDefault[] = [
     {
       name: 'Americana',
-      price: 45,
+      price: 50,
       base: 'Normal',
       souce: 'Tomate',
       cheese: 'Muzzarella',
@@ -16,7 +16,7 @@ export class PizzaService {
     },
     {
       name: '4 Quesos',
-      price: 55,
+      price: 50,
       base: 'Normal',
       souce: 'Tomate',
       cheese: 'Muzzarella',
@@ -26,7 +26,7 @@ export class PizzaService {
   public listPizzaDefault: any = [];
 
   constructor() {
-    this.listPizza.map((pizza) => {
+    this.listPizza.forEach((pizza) => {
       this.makePizza(pizza.name, pizza.base, pizza.souce, pizza.cheese, pizza.topings, pizza.price);
     })
   }

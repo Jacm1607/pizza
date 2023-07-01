@@ -16,10 +16,11 @@ export class AppController {
   @Post('/pizza')
   @UsePipes(ValidationPipe)
   makeDefault (@Body() requestPizza: RequestPizzaDto) {
-    return this.appService.makePizza(requestPizza.name, requestPizza.base, requestPizza.sauce, requestPizza.cheese, requestPizza.toppings, requestPizza.price);
+    return this.appService.makePizza(requestPizza.name, requestPizza.base, requestPizza.sauce, requestPizza.cheese, requestPizza.toppings, 50);
   }
 
   @Post('/order')
+  @UsePipes(ValidationPipe)
   order (@Body() requestOrder: RequestOrderDto) {
     return this.orderService.createOrder(requestOrder.idPizzas.split(','), requestOrder.date);
   }

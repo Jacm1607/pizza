@@ -1,4 +1,4 @@
-import { Pizza } from "./pizza";
+import { Pizza } from "../pizza";
 
 interface IBuilder {
     setBase(base: string): void;
@@ -8,7 +8,7 @@ interface IBuilder {
 }
 
 export class PizzaBuilder implements IBuilder {
-    private product: Pizza
+    private pizza: Pizza
 
     base: string;
     sauce: string;
@@ -17,31 +17,31 @@ export class PizzaBuilder implements IBuilder {
     
 
     constructor(id:string, name: string, price: number) {
-        this.product = new Pizza(id, name, price);
+        this.pizza = new Pizza(id, name, price);
     }
 
     setBase(base) { // base
-        this.product.ingredients.base = base;
+        this.pizza.ingredients.base = base;
         return this;
     }
 
     setSauce(sauce) { //salsa
-        this.product.ingredients.souce = sauce;
+        this.pizza.ingredients.souce = sauce;
         return this;
     }
 
     setCheese(cheese) { //queso
-        this.product.ingredients.cheese = cheese;
+        this.pizza.ingredients.cheese = cheese;
         return this;
     }
 
     setToppings(toppings) {  // ingrediente de relleno
-        this.product.ingredients.toppings = toppings;
+        this.pizza.ingredients.toppings = toppings;
         return this;
     }
 
     build() {
-        const result = this.product
+        const result = this.pizza
         return result;
     }
 }

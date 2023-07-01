@@ -1,3 +1,5 @@
+import { Pizza } from "src/class/pizza";
+
 export interface IStrategy {
-    doAlgorithm(subtotal: number): number;
+    doAlgorithm(pizza: Pizza, subtotal: number): object;
 }
